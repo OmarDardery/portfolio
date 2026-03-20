@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #112940;
+  --color-dark-bg: #0B1724;
+  --color-dark-surface: #162E47;
+  --color-dark-text: #F8FAFC;
+  --color-light-bg: #F8FAFC;
+  --color-light-surface: #FFFFFF;
+  --color-light-text: #0F172A;
+}
+
+@layer base {
+  *, ::before, ::after {
+    @apply border-current;
+  }
+}
+
+.dark {
+  background-color: var(--color-dark-bg);
+  color: var(--color-dark-text);
+}
+
+.light {
+  background-color: var(--color-light-bg);
+  color: var(--color-light-text);
+}
+
+.light .bg-neutral-100 {
+  background-color: var(--color-light-surface) !important;
+}
+
+.light .bg-white {
+  background-color: var(--color-light-surface) !important;
+}
+
+/* Explicitly target headings and spans that might be inheriting white */
+.light h1, .light h2, .light h3, .light h4, .light p, .light span {
+  color: var(--color-primary) !important;
+}
+
+.light .text-primary\/30, .light .text-primary\/40, .light .text-primary\/60 {
+  color: var(--color-primary) !important;
+  opacity: 0.6;
+}
+
+.dark h1, .dark h2, .dark h3, .dark h4 {
+  color: var(--color-dark-text) !important;
+}
