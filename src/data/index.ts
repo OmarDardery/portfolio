@@ -1,5 +1,5 @@
-import { technicalSkills, conceptualSkills } from './skills';
-import { projects } from './projects';
+import { technicalSkills, conceptualSkills } from "./skills";
+import { projects } from "./projects";
 
 export const portfolioData = {
   personalInfo: {
@@ -13,5 +13,9 @@ export const portfolioData = {
   projects,
 };
 
-export type { Skill } from './skills';
-export type { Project } from './projects';
+export type { Skill } from "./skills";
+export type { Project } from "./projects";
+export type { Course } from "./courses";
+export { courses } from "./courses";
+export type { EducationEntry, ExperienceEntry } from "./resume";
+export { education, experiences } from "./resume";
