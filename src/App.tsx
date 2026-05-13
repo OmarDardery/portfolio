@@ -12,6 +12,7 @@ export function App() {
   >("experience");
   const [typedCommand, setTypedCommand] = useState("");
   const [showIntroOutput, setShowIntroOutput] = useState(false);
+  const [isCompactView, setIsCompactView] = useState(false);
 
   useEffect(() => {
     // Initial theme set
@@ -21,7 +22,7 @@ export function App() {
   }, [isDarkMode]);
 
   useEffect(() => {
-    const command = "echo $INTRODUCTION";
+    const command = "echo $INTRODUCTION && echo $SKILLS";
     let currentIndex = 0;
 
     const intervalId = window.setInterval(() => {
@@ -30,11 +31,22 @@ export function App() {
 
       if (currentIndex >= command.length) {
         window.clearInterval(intervalId);
-        window.setTimeout(() => setShowIntroOutput(true), 200);
+        window.setTimeout(() => setShowIntroOutput(true), 150);
       }
-    }, 60);
+    }, 25);
 
     return () => window.clearInterval(intervalId);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsCompactView(window.innerWidth < 800);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const toggleTheme = () => {
@@ -70,29 +82,6 @@ export function App() {
               {isDarkMode ? "🌙" : "☀️"}
             </button>
             <a
-              href="/resume/Omar_Dardir_Resume.pdf"
-              download
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 dark:border-white/10 text-primary/70 dark:text-neutral-200 font-bold text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              Resume
-            </a>
-            <a
               href={`mailto:${personalInfo.email}`}
               className="px-5 py-2 rounded-full bg-primary text-white dark:bg-blue-600 font-bold text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-sm"
             >
@@ -105,41 +94,139 @@ export function App() {
       <main className="pt-32 md:pt-40 pb-24 px-6 max-w-7xl mx-auto space-y-24 md:space-y-40">
         {/* Terminal Intro */}
         <section className="space-y-6">
-          <div className="rounded-3xl border border-primary/10 dark:border-white/10 bg-white dark:bg-dark-surface shadow-sm overflow-hidden">
-            <div className="flex items-center gap-2 px-5 py-3 border-b border-primary/10 dark:border-white/10 bg-primary/5 dark:bg-white/5">
-              <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
-              <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-              <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
-              <span className="ml-3 text-[10px] font-black uppercase tracking-[0.3em] text-primary/50 dark:text-neutral-400">
-                Terminal
-              </span>
+          <div className="rounded-3xl border border-primary/10 dark:border-white/10 bg-white dark:bg-dark-surface shadow-sm overflow-hidden h-[70vh] flex flex-col">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-primary/10 dark:border-white/10 bg-primary/5 dark:bg-white/5">
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+                <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
+                <span className="ml-3 text-[10px] font-black uppercase tracking-[0.3em] text-primary/50 dark:text-neutral-400">
+                  Terminal
+                </span>
+              </div>
+              <a
+                href="/resume/Omar_Dardir_Resume.pdf"
+                download
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 dark:border-white/10 text-primary/70 dark:text-neutral-200 font-bold text-[10px] uppercase tracking-widest hover:scale-105 active:scale-95 transition-all"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Resume
+              </a>
             </div>
-            <div className="p-6 md:p-8 font-mono text-sm md:text-base text-primary/80 dark:text-neutral-200">
+            <div className="p-6 md:p-8 font-mono text-sm md:text-base text-primary/80 dark:text-neutral-200 flex-1 overflow-y-auto">
               <p className="flex items-center gap-2">
                 <span className="text-blue-500">$</span>
                 <span>{typedCommand}</span>
-                <span className="inline-block h-4 w-2 bg-primary/60 dark:bg-white/70 animate-pulse" />
+                {!showIntroOutput && (
+                  <span className="inline-block h-4 w-2 bg-primary/60 dark:bg-white/70 animate-pulse" />
+                )}
               </p>
               {showIntroOutput && (
                 <div className="mt-4 space-y-2">
-                  <p className="text-primary dark:text-white font-semibold">
-                    Omar El-Dardery — Full Stack DevOps Engineer
-                  </p>
-                  <p className="text-primary/60 dark:text-neutral-400">
-                    Skills Venn (Dev | Ops):
-                  </p>
-                  <pre className="whitespace-pre-wrap text-primary/70 dark:text-neutral-300">
-                    {String.raw`        .-""""""""""-.                 .-""""""""""-.
+                  {isCompactView ? (
+                    <ul className="space-y-2 text-primary/80 dark:text-neutral-200">
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>
+                          Omar El-Dardery — Full Stack DevOps Engineer
+                        </span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>Go (Golang)</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>Gin (Go)</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>Python</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>Django</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>FastAPI</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>JavaScript</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>React</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>Next.js</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>Docker</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>Docker Compose</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>Jenkins</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>Git &amp; GH</span>
+                      </li>
+                      <li className="flex gap-2">
+                        <span>-</span>
+                        <span>Unix CLI</span>
+                      </li>
+                    </ul>
+                  ) : (
+                    <>
+                      <p className="text-primary dark:text-white font-semibold">
+                        Omar El-Dardery — Full Stack DevOps Engineer
+                      </p>
+                      <p className="text-primary/60 dark:text-neutral-400">
+                        Skills Venn (Dev | Ops):
+                      </p>
+                      <pre className="whitespace-pre-wrap text-primary/70 dark:text-neutral-300">
+                        {String.raw`        .-""""""""""-.                 .-""""""""""-.
      .-'     DEV      '-.             .-'      OPS     '-.
    .'  React  Next.js    '.         .'  Jenkins  Git & GH  '.
   /  JavaScript  Python    \  Docker  /   Docker Compose     \
- ;   Django  FastAPI        ;       ;     Unix CLI           ;
-  \                      .'/         \                      ./
+ ;   Django  FastAPI  Go    ;       ;     Unix CLI           ;
+  \          Gin         .'/         \                      ./
    '.                  .'             '.                  .'
      '-.            .-'                 '-.            .-'
         '-._____.-'                         '-._____.-'`}
-                  </pre>
+                      </pre>
+                    </>
+                  )}
                 </div>
+              )}
+              {showIntroOutput && (
+                <p className="mt-6 flex items-center gap-2">
+                  <span className="text-blue-500">$</span>
+                  <span className="inline-block h-4 w-2 bg-primary/60 dark:bg-white/70 animate-pulse" />
+                </p>
               )}
             </div>
           </div>
