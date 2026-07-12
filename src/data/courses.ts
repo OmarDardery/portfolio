@@ -1,10 +1,15 @@
 import goUdemy from "../public/certificates/go_udemy.png";
+import dukeRustFundamentals from "../public/certificates/rust_fundamentals_duke_university.jpeg";
 import ibmIntroDevops from "../public/certificates/ibm_intro_devops.png";
 import ibmIntroAgileScrum from "../public/certificates/ibm_intro_to_agile_and_scrum.png";
 import ibmIntroCloudComp from "../public/certificates/ibm_intro_to_cloud_comp.png";
 import kodekloudDevopsPrereq from "../public/certificates/kodekloud_devops_prereq.png";
 import kodekloudDockerBasics from "../public/certificates/kodekloud_docker_basics.png";
 import kodekloudGitBasics from "../public/certificates/kodekloud_git_basics.png";
+import kodekloudGoSpecialization from "../public/certificates/kodekloud_go_programming_mastery_specialization.jpg";
+import kodekloudGolangFoundations from "../public/certificates/kodekloud_golang_foundations_and_variables.jpg";
+import kodekloudGolangFunctionsPointers from "../public/certificates/kodekloud_golang_functions_pointers_and_system_design.jpg";
+import kodekloudGolangLogicFlow from "../public/certificates/kodekloud_golang_logic_flow_and_data_collections.jpg";
 import kodekloudJenkinsBasics from "../public/certificates/kodekloud_jenkins_basics.png";
 import kodekloudPython from "../public/certificates/kodekloud_python.png";
 import metaFrontend from "../public/certificates/meta_frontend_course.png";
@@ -95,6 +100,42 @@ export const courses: Course[] = [
     type: "course",
   },
   {
+    image: kodekloudGoSpecialization,
+    title: "GO Programming Mastery (Specialization)",
+    provider: "KodeKloud",
+    description:
+      "Three-course specialization covering Go syntax, data collections, and production-ready system design.",
+    skills: ["Go (Golang)"],
+    type: "specialization",
+  },
+  {
+    image: kodekloudGolangFoundations,
+    title: "Golang: Foundations and Variables",
+    provider: "KodeKloud",
+    description:
+      "Go type system, variables, constants, operators, and environment setup for real-world Go apps.",
+    skills: ["Go (Golang)"],
+    type: "course",
+  },
+  {
+    image: kodekloudGolangLogicFlow,
+    title: "Golang: Logic Flow and Data Collections",
+    provider: "KodeKloud",
+    description:
+      "Control flow (if-else, switch, for loops) and data handling with Arrays, Slices, and Maps.",
+    skills: ["Go (Golang)"],
+    type: "course",
+  },
+  {
+    image: kodekloudGolangFunctionsPointers,
+    title: "Golang: Functions, Pointers and System Design",
+    provider: "KodeKloud",
+    description:
+      "Variadic parameters, recursion, defer, pointer-based memory optimization, and interface-driven design.",
+    skills: ["Go (Golang)"],
+    type: "course",
+  },
+  {
     image: kodekloudPython,
     title: "Python Basics",
     provider: "KodeKloud",
@@ -165,6 +206,15 @@ export const courses: Course[] = [
     provider: "Meta",
     description: "Components, props, state, and basic hooks.",
     skills: ["React", "JavaScript"],
+    type: "course",
+  },
+  {
+    image: dukeRustFundamentals,
+    title: "Rust Fundamentals",
+    provider: "Duke University",
+    description:
+      "Rust language fundamentals: ownership, borrowing, and core syntax for safe systems programming.",
+    skills: ["Rust"],
     type: "course",
   },
   {

@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* The theme toggle sets a .dark/.light class on <html>; make Tailwind's
+   dark: variant follow that class instead of the OS color scheme. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-primary: #112940;
   --color-dark-bg: #0B1724;

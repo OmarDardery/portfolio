@@ -51,6 +51,11 @@ export const technicalSkills: Skill[] = [
     isTechnical: true,
   },
   {
+    name: "Rust",
+    description: "Memory-safe systems programming with ownership and borrowing.",
+    isTechnical: true,
+  },
+  {
     name: "Next.js",
     description: "Server-side rendering, SEO, and full-stack React applications.",
     isTechnical: true,
