@@ -15,44 +15,67 @@ import "./index.css";
 const services = [
   {
     number: "01",
-    title: "Turn an idea into a working product",
+    title: "Websites that represent you properly",
+    short: "Website development",
     description:
-      "Websites, platforms, and internal tools that make a clear task easier—from finding opportunities to managing bookings.",
-    examples: "Product development · Websites · Internal tools",
+      "Business websites, portfolios, landing pages, and community sites that make it easy to understand what you do and take the next step.",
+    deliverables: [
+      "Responsive pages for desktop and mobile",
+      "Clear content, navigation, and contact forms",
+      "Search and sharing basics",
+      "A straightforward way to update content",
+    ],
+    fit: "For a new presence, a launch, or a website that needs a refresh.",
   },
   {
     number: "02",
-    title: "Make the work easier to run",
+    title: "Software built around how you work",
+    short: "Custom software",
     description:
-      "Connect services, automate repetitive setup, and build systems that are easier to maintain and hand over.",
-    examples: "Automation · Deployment · Self-hosted systems",
+      "Web apps, dashboards, booking systems, and internal tools that bring a specific workflow into one usable place.",
+    deliverables: [
+      "Interfaces people can actually use",
+      "Accounts, data, and application logic",
+      "APIs and connections between services",
+      "Testing, documentation, and handover",
+    ],
+    fit: "For a process that has outgrown spreadsheets, messages, or manual work.",
   },
   {
     number: "03",
-    title: "Move faster with well-directed AI",
+    title: "Deployment, domains, and the last mile",
+    short: "Deployment and domains",
     description:
-      "Translate a goal into clear instructions for LLMs and coding agents, guide the implementation, and check the result against what people actually need.",
-    examples: "Agent workflows · Rapid prototyping · Code review",
+      "Have the code but need it online? I can handle the setup between a working project and a website or application people can reach.",
+    deliverables: [
+      "Hosting and application deployment",
+      "Custom domains, subdomains, and DNS",
+      "HTTPS and environment configuration",
+      "Live checks and notes for future updates",
+    ],
+    fit: "For launching something new or sorting out an existing deployment.",
+  },
+  {
+    number: "04",
+    title: "Less repetitive work. Better connections.",
+    short: "Automation and integrations",
+    description:
+      "Scripts, integrations, and repeatable setups that move information between tools and reduce the work you keep doing by hand.",
+    deliverables: [
+      "Connections between APIs and services",
+      "Small tools for recurring tasks",
+      "Repeatable development environments",
+      "AI-assisted prototyping and iteration",
+    ],
+    fit: "For the task you keep thinking, ‘surely this could be automated.’",
   },
 ];
-const process = [
-  [
-    "Understand the goal",
-    "Start with the user, the problem, and what a useful result should look like.",
-  ],
-  [
-    "Give agents a clear brief",
-    "Provide context, constraints, and focused tasks so the work moves in the right direction.",
-  ],
-  [
-    "Review and steer",
-    "Inspect the output, challenge assumptions, and adjust the approach as the product takes shape.",
-  ],
-  [
-    "Test and deliver",
-    "Check behavior, resolve gaps, and leave a result that can be understood and maintained.",
-  ],
-];
+const projectServices: Record<string, string> = {
+  "IEEE EUI Website": "Website development",
+  Solvex: "Custom web application",
+  Nixlab: "Deployment & infrastructure",
+  Lukat: "Software & connected devices",
+};
 
 export function App() {
   const [playing, setPlaying] = useState(() => {
@@ -84,8 +107,9 @@ export function App() {
     } catch {}
   }, [isDarkMode]);
 
-  const { personalInfo, projects } = portfolioData;
-  const featured = ["Lukat", "Nixlab", "IEEE EUI Website", "Solvex", "EngDen"];
+  const { personalInfo } = portfolioData;
+  const projects = portfolioData.projects.filter((project) => !project.hidden);
+  const featured = ["IEEE EUI Website", "Solvex", "Nixlab", "Lukat"];
   const selected = featured
     .map((title) => projects.find((project) => project.title === title))
     .filter((project) => project !== undefined);
@@ -93,7 +117,29 @@ export function App() {
 
   const renderProject = (project: (typeof projects)[number], index: number) => (
     <article className="work-card" key={project.title}>
-      {project.imagePaths.length > 0 ? (
+      {project.title === "Lukat" ? (
+        <div
+          className="lukat-proof-cover"
+          aria-label="Lukat prototype cutout and actual mobile app"
+        >
+          <div className="lukat-device">
+            <img
+              src={project.imagePaths[0]}
+              alt="Lukat round display, isolated from the original prototype photo"
+              loading="lazy"
+            />
+            <span>the display</span>
+          </div>
+          <div className="lukat-app">
+            <img
+              src={project.imagePaths[2]}
+              alt="Actual Lukat app with the dog at a terminal GIF"
+              loading="lazy"
+            />
+          </div>
+          <span className="lukat-cover-label">lukat / prototype + app</span>
+        </div>
+      ) : project.imagePaths.length > 0 ? (
         <div className="work-image">
           <img
             src={project.imagePaths[0]}
@@ -116,8 +162,10 @@ export function App() {
         </div>
       )}
       <div className="work-body">
-        {project.status && (
-          <span className="project-status">{project.status}</span>
+        {(projectServices[project.title] || project.status) && (
+          <span className="project-status">
+            {projectServices[project.title] ?? project.status}
+          </span>
         )}
         <div className="work-title">
           <span className="project-number">
@@ -179,8 +227,9 @@ export function App() {
             Omar El-Dardery<span aria-hidden="true">.</span>
           </a>
           <div className="nav-links">
+            <a href="#services">Services</a>
             <a href="#work">Work</a>
-            <a href="#approach">Approach</a>
+            <a href="#delivery">How I work</a>
             <a href="#about">About</a>
           </div>
           <div className="nav-actions">
@@ -216,29 +265,31 @@ export function App() {
       <main id="main">
         <section className="shell hero" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <p className="eyebrow">Software developer · Cairo, Egypt</p>
+            <p className="eyebrow">Websites · Software · Deployment</p>
             <h1 id="hero-title">
-              Good ideas deserve
+              Websites & software.
               <br />
-              to <em>work in real life.</em>
+              <em>From idea to live.</em>
             </h1>
             <p className="hero-description">
-              I build useful software, simplify the systems behind it, and guide
-              AI agents to turn ideas into working results.
+              I help businesses, teams, and individuals build websites and
+              practical software—then get them online with hosting, a connected
+              domain, and a clear handover.
             </p>
             <div className="hero-actions">
-              <a className="button button-primary" href="#work">
-                Explore my work <span aria-hidden="true">↓</span>
+              <a className="button button-primary" href="#services">
+                Find what you need <span aria-hidden="true">↓</span>
               </a>
               <a
                 className="button button-secondary"
                 href={`mailto:${personalInfo.email}`}
               >
-                Tell me what you’re building <span aria-hidden="true">↗</span>
+                Discuss your project <span aria-hidden="true">↗</span>
               </a>
             </div>
             <p className="hero-note">
-              From the first brief to the live link. Yes, deployment included.
+              A complete project, an existing tool improved, or just help
+              getting it live.
             </p>
           </div>
           <aside className="portrait-block" aria-label="Meet Omar">
@@ -273,61 +324,69 @@ export function App() {
             </p>
           </aside>
         </section>
-        <section className="services-section">
-          <div className="shell">
-            <div className="section-heading">
-              <p className="eyebrow">How I can help</p>
-              <h2>Start with what you need to achieve.</h2>
+        <section className="services-section" id="services">
+          <div className="shell services-layout">
+            <div className="services-intro">
+              <p className="eyebrow">What I can help with</p>
+              <h2>
+                Pick the part
+                <br />
+                you need handled.
+              </h2>
+              <p>
+                A new website, a custom tool, or the setup that gets it online.
+                We can start with one clear need and define the scope together.
+              </p>
+              <a
+                className="text-link"
+                href={`mailto:${personalInfo.email}?subject=Let%E2%80%99s%20discuss%20a%20project`}
+              >
+                Not sure where to start? Let’s talk ↗
+              </a>
             </div>
-            <div className="services-grid">
+            <div className="service-catalog">
               {services.map((service) => (
-                <article className="service" key={service.number}>
+                <article className="service-offering" key={service.number}>
                   <span className="item-number">{service.number} /</span>
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
-                  <span className="service-examples">{service.examples}</span>
+                  <div className="service-main">
+                    <h3>{service.title}</h3>
+                    <p>{service.description}</p>
+                    <p className="service-fit">{service.fit}</p>
+                    <a
+                      className="service-cta"
+                      href={`mailto:${personalInfo.email}?subject=${encodeURIComponent(service.short + " enquiry")}`}
+                    >
+                      Let’s discuss {service.short.toLowerCase()}{" "}
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  </div>
+                  <div className="service-includes">
+                    <span>What that can include</span>
+                    <ul>
+                      {service.deliverables.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </article>
               ))}
             </div>
           </div>
         </section>
-        <section className="shell section" id="work">
-          <div className="section-heading heading-row">
-            <div>
-              <p className="eyebrow">Selected work</p>
-              <h2>Different projects. A useful purpose.</h2>
-            </div>
-            <a
-              className="text-link"
-              href="https://github.com/OmarDardery"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Explore GitHub ↗
-            </a>
-          </div>
-          <div className="work-grid">{selected.map(renderProject)}</div>
-          <details className="more-work">
-            <summary>
-              More projects & teaching <span>({more.length})</span>
-            </summary>
-            <div className="work-grid">{more.map(renderProject)}</div>
-          </details>
-        </section>
         <section className="delivery-section" id="delivery">
           <MatrixRain playing={playing} />
           <div className="shell delivery-content">
             <div className="section-heading">
-              <p className="eyebrow">From development to deployment</p>
+              <p className="eyebrow">How I work</p>
               <h2>
-                “Works on my machine”
+                A clear brief.
                 <br />
-                <em>is the starting line.</em>
+                <em>A working handover.</em>
               </h2>
               <p className="delivery-intro">
-                I can carry a project through the whole journey: understand the
-                brief, build the product, test it, deploy it, and make it easier
-                for the next person to run.
+                You don’t need to coordinate every technical step yourself. I
+                can take care of the build, the launch, and the details in
+                between—or step in for the part you need.
               </p>
             </div>
             <ol className="delivery-steps">
@@ -368,41 +427,42 @@ export function App() {
               <div>CI checks</div>
               <div>Documented handover</div>
             </div>
+            <div className="ai-delivery-note" id="approach">
+              <span>
+                AI helps with the pace.
+                <br />I stay responsible for the result.
+              </span>
+              <p>
+                I use LLMs and coding agents to explore options and carry out
+                focused tasks. Clear instructions, small feedback loops, code
+                review, and testing keep the work tied to your brief.
+              </p>
+            </div>
             <TinyTerminal />
           </div>
         </section>
-        <section className="approach-section" id="approach">
-          <div className="shell approach-layout">
-            <div className="approach-intro">
-              <p className="eyebrow">Working with AI</p>
-              <h2>
-                Faster progress starts
-                <br />
-                with better direction.
-              </h2>
-              <p>
-                I use LLMs and coding agents as part of my development workflow:
-                to explore options, prototype, and carry out focused
-                implementation tasks. I stay responsible for the decisions, the
-                review, and whether the result solves the original problem.
-              </p>
-              <p className="approach-note">
-                Clear context. Small feedback loops. Results checked against the
-                brief.
-              </p>
+        <section className="shell section" id="work">
+          <div className="section-heading heading-row">
+            <div>
+              <p className="eyebrow">A few examples</p>
+              <h2>Here’s what that looks like.</h2>
             </div>
-            <ol className="process-list">
-              {process.map(([title, description], index) => (
-                <li key={title}>
-                  <span className="process-number">0{index + 1}</span>
-                  <div>
-                    <h3>{title}</h3>
-                    <p>{description}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
+            <a
+              className="text-link"
+              href="https://github.com/OmarDardery"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Explore GitHub ↗
+            </a>
           </div>
+          <div className="work-grid">{selected.map(renderProject)}</div>
+          <details className="more-work">
+            <summary>
+              More experiments & teaching <span>({more.length})</span>
+            </summary>
+            <div className="work-grid">{more.map(renderProject)}</div>
+          </details>
         </section>
         <section className="shell section" id="about">
           <div className="about-intro">
@@ -436,12 +496,15 @@ export function App() {
               </a>
             </div>
           </div>
-          <div className="experience-content">
-            <ExperienceEducation
-              education={education}
-              experiences={experiences}
-            />
-          </div>
+          <details className="background-details">
+            <summary>Experience & education</summary>
+            <div className="experience-content">
+              <ExperienceEducation
+                education={education}
+                experiences={experiences}
+              />
+            </div>
+          </details>
           <details className="learning-details">
             <summary>Courses & certificates</summary>
             <CertificateGallery
@@ -453,11 +516,12 @@ export function App() {
         <section className="contact-section" id="contact">
           <div className="shell contact-layout">
             <div>
-              <p className="eyebrow">Let’s build something useful</p>
-              <h2>Have a problem worth solving?</h2>
+              <p className="eyebrow">Start with what you need</p>
+              <h2>What can I take off your plate?</h2>
               <p>
-                Tell me who it’s for, what’s getting in the way, and what you’d
-                like to make possible.
+                Tell me what you need built, who will use it, and whether you
+                already have a website, code, or domain. I’ll help turn that
+                into a clear next step.
               </p>
             </div>
             <a

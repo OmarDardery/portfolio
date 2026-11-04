@@ -1,7 +1,7 @@
 import nixlabOverview from "../public/projects/nixlab-overview.webp";
 import ieeeHome from "../public/projects/ieee-home.webp";
 import ieeeEvents from "../public/projects/ieee-events.webp";
-import lukatConcept from "../public/projects/lukat-concept.webp";
+import lukatCutout from "../public/projects/lukat-cutout.webp";
 import lukatPrototype from "../public/projects/lukat-prototype.webp";
 import lukatGif from "../public/projects/lukat-gif.webp";
 import lukatAlbum from "../public/projects/lukat-album.webp";
@@ -39,6 +39,7 @@ import objectDetection0 from "../public/projects/object_detection_application.pn
 export interface Project {
   title: string;
   status?: string;
+  hidden?: boolean;
   imageCaptions?: string[];
   description: string;
   why: string;
@@ -60,13 +61,13 @@ export const projects: Project[] = [
     description:
       "A little wireless display for your interests. Send art, GIFs, drawings, and what’s playing from a mobile app to a customizable, headphone-mountable display.",
     usefulness:
-      "A wearable canvas for a bit of personality—because headphones can have interests too. The mobile app and working display prototype are being developed together; the headphone enclosure is still a concept.",
+      "A wearable canvas for a bit of personality—because headphones can have interests too. The mobile app and working display prototype are being developed together; a compact headphone mount is planned.",
     why: "I wanted to bring a small digital canvas into the physical world. Lukat connects the mobile experience, image preparation, wireless transfer, and embedded playback as one product.",
     detailedAnalysis: [
       "Built a companion Android app with content selection, a drawing editor, GIF controls, and a saved library.",
       "Connected the app to an ESP32-powered round display over Bluetooth Low Energy.",
       "Worked on image preparation, transfer integrity, storage, and playback under device constraints.",
-      "Designed around a future compact headphone mount; the product render illustrates that direction rather than a finished enclosure.",
+      "Designed around a future compact headphone mount; the gallery shows the actual display prototype and companion app.",
     ],
     skills: [
       "ESP32",
@@ -78,7 +79,7 @@ export const projects: Project[] = [
       "Embedded systems",
     ],
     imagePaths: [
-      lukatConcept,
+      lukatCutout,
       lukatPrototype,
       lukatGif,
       lukatAlbum,
@@ -86,7 +87,7 @@ export const projects: Project[] = [
       lukatLibrary,
     ],
     imageCaptions: [
-      "Concept render · proposed headphone mount and app presentation",
+      "Photographic cutout of the working Lukat display",
       "Actual working round-display prototype",
       "Actual app · GIF selection and compression controls",
       "Actual app · album artwork controls",
@@ -192,6 +193,7 @@ export const projects: Project[] = [
   },
   {
     title: "EngDen",
+    hidden: true,
     description:
       "A study platform where university students can find past questions, practice topic-based quizzes, and keep revision material organized.",
     why: "Django gave me a secure and reliable backend foundation for authentication and content workflows, while React kept the frontend flexible. Cloudflare tunneling made self-hosting practical with safer exposure and easier routing.",
