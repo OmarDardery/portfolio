@@ -37,9 +37,9 @@ export const experiences: ExperienceEntry[] = [
     location: "Cairo, Egypt",
     dates: "May 2025 – Jul. 2025",
     bullets: [
-      "Developed RESTful backend services in Django.",
-      "Integrated PostgreSQL queries and optimized data retrieval for telemetry analytics.",
-      "Built frontend pages using recursive algorithms to visualize tree-like components from the database.",
+      "Built backend features to support equipment telemetry and analytics.",
+      "Improved how telemetry data was retrieved for analysis.",
+      "Made hierarchical equipment data easier to explore through visual frontend pages.",
     ],
   },
   {
@@ -48,9 +48,9 @@ export const experiences: ExperienceEntry[] = [
     location: "New Administrative Capital, Egypt",
     dates: "Dec. 2025 – Jan. 2026",
     bullets: [
-      "Developed full-stack features for an equipment booking and management system using React and Node.js.",
-      "Used Docker Compose to containerize and run the full-stack environment.",
-      "Used Git and GitHub branches to build and test features before merging into production.",
+      "Built features that help people book and manage equipment.",
+      "Set up a consistent development environment for the application and its services.",
+      "Worked with version control and tested changes before integrating them.",
     ],
   },
 ];

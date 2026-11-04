@@ -4,9 +4,9 @@ import { projects } from "./projects";
 export const portfolioData = {
   personalInfo: {
     name: "Omar El-Dardery",
-    role: "Full Stack & DevOps Engineer",
+    role: "Software Developer",
     email: "oadardery@gmail.com",
-    tagline: "Building scalable web solutions and self-hosted infrastructure.",
+    tagline: "Useful software, simpler systems, and thoughtfully directed AI.",
   },
   technicalSkills,
   conceptualSkills,
