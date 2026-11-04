@@ -12,9 +12,12 @@ const server = serve({
 
   async fetch(req) {
     const url = new URL(req.url);
-    
+
     // Serve static files from src/public
-    if (url.pathname.startsWith("/assets/") || url.pathname.startsWith("/projects/")) {
+    if (
+      url.pathname.startsWith("/assets/") ||
+      url.pathname.startsWith("/projects/")
+    ) {
       const filePath = join(process.cwd(), "src/public", url.pathname);
       const file = Bun.file(filePath);
       if (await file.exists()) {
@@ -23,7 +26,7 @@ const server = serve({
     }
 
     // Default router behavior
-    return undefined;
+    return new Response("Not found", { status: 404 });
   },
 
   development: dev && {

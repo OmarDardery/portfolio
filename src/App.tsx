@@ -1,186 +1,406 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { portfolioData, courses, education, experiences } from "./data";
-import { ProjectCard } from "./components/ui/ProjectCard";
 import { CertificateGallery } from "./components/ui/CertificateDisplay";
 import { ExperienceEducation } from "./components/ui/ExperienceEducation";
-import { Terminal } from "./components/ui/Terminal";
+import resumePdf from "./public/resume/Omar_Dardir_Resume.pdf";
 import "./index.css";
 
-export function App() {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-  const [activeSection, setActiveSection] = useState<
-    "experience" | "projects" | "certificates"
-  >("experience");
+const services = [
+  {
+    number: "01",
+    title: "Turn an idea into a working product",
+    description:
+      "Websites, platforms, and internal tools that make a clear task easier—from finding opportunities to managing bookings.",
+    examples: "Product development · Websites · Internal tools",
+  },
+  {
+    number: "02",
+    title: "Make the work easier to run",
+    description:
+      "Connect services, automate repetitive setup, and build systems that are easier to maintain and hand over.",
+    examples: "Automation · Deployment · Self-hosted systems",
+  },
+  {
+    number: "03",
+    title: "Move faster with well-directed AI",
+    description:
+      "Translate a goal into clear instructions for LLMs and coding agents, guide the implementation, and check the result against what people actually need.",
+    examples: "Agent workflows · Rapid prototyping · Code review",
+  },
+];
+const process = [
+  [
+    "Understand the goal",
+    "Start with the user, the problem, and what a useful result should look like.",
+  ],
+  [
+    "Give agents a clear brief",
+    "Provide context, constraints, and focused tasks so the work moves in the right direction.",
+  ],
+  [
+    "Review and steer",
+    "Inspect the output, challenge assumptions, and adjust the approach as the product takes shape.",
+  ],
+  [
+    "Test and deliver",
+    "Check behavior, resolve gaps, and leave a result that can be understood and maintained.",
+  ],
+];
 
+export function App() {
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window === "undefined") return true;
+    try {
+      const saved = localStorage.getItem("portfolio-theme");
+      if (saved) return saved === "dark";
+    } catch {}
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
   useEffect(() => {
-    // Initial theme set
-    document.documentElement.className = isDarkMode ? "dark" : "light";
-    // Ensure body also gets the class for full coverage
-    document.body.className = isDarkMode ? "dark" : "light";
+    document.documentElement.classList.toggle("dark", isDarkMode);
+    document.documentElement.classList.toggle("light", !isDarkMode);
+    document.documentElement.style.colorScheme = isDarkMode ? "dark" : "light";
+    try {
+      localStorage.setItem("portfolio-theme", isDarkMode ? "dark" : "light");
+    } catch {}
   }, [isDarkMode]);
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
   const { personalInfo, projects } = portfolioData;
+  const featured = ["Solvex", "Nixlab", "IEEE EUI Website", "EngDen"];
+  const selected = featured
+    .map((title) => projects.find((project) => project.title === title))
+    .filter((project) => project !== undefined);
+  const more = projects.filter((project) => !featured.includes(project.title));
 
-  const showcaseTabs = [
-    { id: "experience", label: "Experience" },
-    { id: "projects", label: "Projects" },
-    { id: "certificates", label: "Certificates" },
-  ] as const;
-
-  return (
-    <div
-      className={`min-h-screen transition-colors duration-500 font-sans antialiased selection:bg-primary selection:text-white ${isDarkMode ? "dark bg-dark-bg text-dark-text" : "light bg-light-bg text-primary"}`}
-    >
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-primary/10 dark:border-white/5 bg-white/70 dark:bg-dark-bg/70 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-4 min-w-0">
-            <span className="text-lg sm:text-xl font-bold tracking-tighter text-primary dark:text-blue-500 truncate">
-              {personalInfo.name}
-            </span>
-          </div>
-          <div className="flex items-center gap-3 sm:gap-8 shrink-0">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-full hover:bg-neutral-200 dark:hover:bg-white/5 transition-colors cursor-pointer text-lg leading-none"
-              aria-label="Toggle Theme"
-            >
-              {isDarkMode ? "🌙" : "☀️"}
-            </button>
-            <a
-              href={`mailto:${personalInfo.email}`}
-              className="px-5 py-2 rounded-full bg-primary text-white dark:bg-blue-600 font-bold text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-sm"
-            >
-              Contact
-            </a>
-          </div>
+  const renderProject = (project: (typeof projects)[number], index: number) => (
+    <article className="work-card" key={project.title}>
+      {project.imagePaths.length > 0 ? (
+        <div className="work-image">
+          <img
+            src={project.imagePaths[0]}
+            alt={`${project.title} interface`}
+            loading="lazy"
+            width="1200"
+            height="675"
+          />
         </div>
-      </nav>
-
-      <main className="pt-32 md:pt-40 pb-24 px-6 max-w-7xl mx-auto space-y-24 md:space-y-40">
-        {/* Terminal Intro */}
-        <section className="space-y-6">
-          <Terminal isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
-        </section>
-
-        {/* Experience | Projects | Certificates */}
-        <section id="projects" className="space-y-10 md:space-y-12">
-          <div
-            role="tablist"
-            aria-label="Highlights"
-            className="grid grid-cols-3 items-center"
-          >
-            {showcaseTabs.map((tab, index) => (
-              <div
-                key={tab.id}
-                className="relative flex items-center justify-center py-2 "
+      ) : (
+        <div className="work-cover" aria-hidden="true">
+          <span>
+            {project.title === "Nixlab"
+              ? "Infrastructure, made repeatable."
+              : "A home for the community."}
+          </span>
+          <span className="cover-name">
+            {project.title === "Nixlab" ? "nixlab /" : "IEEE EUI ↗"}
+          </span>
+        </div>
+      )}
+      <div className="work-body">
+        <div className="work-title">
+          <span className="project-number">
+            {String(index + 1).padStart(2, "0")}
+          </span>
+          <h3>{project.title}</h3>
+        </div>
+        <p>{project.description}</p>
+        <p className="project-value">{project.usefulness}</p>
+        <div className="project-links">
+          {project.links
+            .filter((link) => link.type !== "linkedin")
+            .map((link) => (
+              <a
+                href={link.url}
+                key={link.url}
+                target="_blank"
+                rel="noreferrer"
               >
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeSection === tab.id}
-                  aria-controls={`panel-${tab.id}`}
-                  onClick={() => setActiveSection(tab.id)}
-                  className={`w-full cursor-pointer text-center text-[10px] sm:text-xs md:text-sm font-black uppercase tracking-[0.1em] sm:tracking-[0.25em] transition-colors ${
-                    activeSection === tab.id
-                      ? "text-primary dark:text-blue-400"
-                      : "text-primary/40 dark:text-neutral-500 hover:text-primary dark:hover:text-blue-300"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-                {index < showcaseTabs.length - 1 && (
-                  <span className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-primary/30 dark:text-white/30">
-                    |
-                  </span>
-                )}
-              </div>
+                {link.label} <span aria-hidden="true">↗</span>
+              </a>
+            ))}
+        </div>
+        <details className="project-detail">
+          <summary>Behind the project</summary>
+          <p>{project.why}</p>
+          <ul>
+            {project.detailedAnalysis.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <div className="technology-list" aria-label="Technologies">
+            {project.skills.map((skill) => (
+              <span key={skill}>{skill}</span>
             ))}
           </div>
+          {project.imagePaths.length > 1 && (
+            <div className="project-gallery">
+              {project.imagePaths.slice(1).map((image, i) => (
+                <a
+                  href={image}
+                  key={image}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Open ${project.title} screenshot ${i + 2}`}
+                >
+                  <img
+                    src={image}
+                    alt={`${project.title}, additional view ${i + 2}`}
+                    loading="lazy"
+                  />
+                </a>
+              ))}
+            </div>
+          )}
+        </details>
+      </div>
+    </article>
+  );
 
-          <div className="pt-4">
-            {activeSection === "experience" && (
-              <div id="panel-experience" role="tabpanel">
-                <ExperienceEducation
-                  education={education}
-                  experiences={experiences}
-                />
-              </div>
-            )}
-
-            {activeSection === "projects" && (
-              <div
-                id="panel-projects"
-                role="tabpanel"
-                className="space-y-6 md:space-y-8"
+  return (
+    <div className="portfolio">
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <header className="site-header">
+        <nav className="shell nav" aria-label="Main navigation">
+          <a className="wordmark" href="#">
+            Omar El-Dardery<span aria-hidden="true">.</span>
+          </a>
+          <div className="nav-links">
+            <a href="#work">Work</a>
+            <a href="#approach">Approach</a>
+            <a href="#about">About</a>
+          </div>
+          <div className="nav-actions">
+            <button
+              className="theme-toggle"
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              aria-label={`Switch to ${isDarkMode ? "light" : "dark"} theme`}
+            >
+              {isDarkMode ? "☀" : "☾"}
+            </button>
+            <a className="nav-contact" href={`mailto:${personalInfo.email}`}>
+              Let’s talk <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </nav>
+      </header>
+      <main id="main">
+        <section className="shell hero" aria-labelledby="hero-title">
+          <div className="hero-copy">
+            <p className="eyebrow">Software developer · Cairo, Egypt</p>
+            <h1 id="hero-title">
+              Good ideas deserve
+              <br />
+              to <em>work in real life.</em>
+            </h1>
+            <p className="hero-description">
+              I build useful software, simplify the systems behind it, and guide
+              AI agents to turn ideas into working results.
+            </p>
+            <div className="hero-actions">
+              <a className="button button-primary" href="#work">
+                Explore my work <span aria-hidden="true">↓</span>
+              </a>
+              <a
+                className="button button-secondary"
+                href={`mailto:${personalInfo.email}`}
               >
-                <div className="flex items-end justify-between">
-                  <h3 className="text-2xl md:text-3xl font-black tracking-tight text-primary dark:text-dark-text">
-                    Projects
-                  </h3>
-                  <span className="text-[10px] font-black text-neutral-400 dark:text-neutral-500 uppercase tracking-[0.4em]">
-                    [{projects.length}]
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-                  {projects.map((project, idx) => (
-                    <ProjectCard key={idx} project={project} />
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {activeSection === "certificates" && (
-              <div id="panel-certificates" role="tabpanel">
-                <CertificateGallery
-                  certificates={courses}
-                  title="Certificates"
-                />
-              </div>
-            )}
+                Tell me what you’re building <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <p className="hero-note">
+              From the first brief to the details that make it usable.
+            </p>
+          </div>
+          <aside className="hero-aside" aria-label="What I bring">
+            <span className="aside-label">A practical builder’s mindset</span>
+            <p>
+              Understand the problem.
+              <br />
+              Build the useful version.
+              <br />
+              <span>Make it easier to use.</span>
+            </p>
+            <div className="aside-footer">
+              <span>
+                Web products
+                <br />
+                Automation & infrastructure
+                <br />
+                AI-assisted delivery
+              </span>
+              <span className="aside-arrow" aria-hidden="true">
+                ↘
+              </span>
+            </div>
+          </aside>
+        </section>
+        <section className="services-section">
+          <div className="shell">
+            <div className="section-heading">
+              <p className="eyebrow">How I can help</p>
+              <h2>Start with what you need to achieve.</h2>
+            </div>
+            <div className="services-grid">
+              {services.map((service) => (
+                <article className="service" key={service.number}>
+                  <span className="item-number">{service.number} /</span>
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
+                  <span className="service-examples">{service.examples}</span>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-neutral-200 dark:border-white/5 py-20 px-6 bg-white dark:bg-dark-bg">
-        <div className="max-w-7xl mx-auto flex flex-col items-center gap-12">
-          <div className="flex flex-wrap justify-center gap-6 sm:gap-12 text-[11px] font-black uppercase tracking-[0.3em] text-neutral-400 dark:text-neutral-600">
+        <section className="shell section" id="work">
+          <div className="section-heading heading-row">
+            <div>
+              <p className="eyebrow">Selected work</p>
+              <h2>Different projects. A useful purpose.</h2>
+            </div>
             <a
-              href={`mailto:${personalInfo.email}`}
-              className="hover:text-primary dark:hover:text-blue-500 transition-colors"
-            >
-              Email
-            </a>
-            <a
-              href="https://www.linkedin.com/in/omar-el-dardery-96924b2a2"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:text-primary dark:hover:text-blue-500 transition-colors"
-            >
-              LinkedIn
-            </a>
-            <a
+              className="text-link"
               href="https://github.com/OmarDardery"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-primary dark:hover:text-blue-500 transition-colors"
             >
-              GitHub
+              Explore GitHub ↗
             </a>
           </div>
-          <p className="text-[10px] font-bold text-neutral-300 dark:text-neutral-800 tracking-widest text-center">
-            © {new Date().getFullYear()} {personalInfo.name.toUpperCase()} .
-            SYSTEM VERIFIED
-          </p>
+          <div className="work-grid">{selected.map(renderProject)}</div>
+          <details className="more-work">
+            <summary>
+              More projects & teaching <span>({more.length})</span>
+            </summary>
+            <div className="work-grid">{more.map(renderProject)}</div>
+          </details>
+        </section>
+        <section className="approach-section" id="approach">
+          <div className="shell approach-layout">
+            <div className="approach-intro">
+              <p className="eyebrow">Working with AI</p>
+              <h2>
+                Faster progress starts
+                <br />
+                with better direction.
+              </h2>
+              <p>
+                I use LLMs and coding agents as part of my development workflow:
+                to explore options, prototype, and carry out focused
+                implementation tasks. I stay responsible for the decisions, the
+                review, and whether the result solves the original problem.
+              </p>
+              <p className="approach-note">
+                Clear context. Small feedback loops. Results checked against the
+                brief.
+              </p>
+            </div>
+            <ol className="process-list">
+              {process.map(([title, description], index) => (
+                <li key={title}>
+                  <span className="process-number">0{index + 1}</span>
+                  <div>
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+        <section className="shell section" id="about">
+          <div className="about-intro">
+            <div>
+              <p className="eyebrow">A little about me</p>
+              <h2>
+                Curious about how things work.
+                <br />
+                Focused on making them useful.
+              </h2>
+            </div>
+            <div>
+              <p>
+                I’m Omar, a computer engineering student at Egypt University of
+                Informatics. My work spans web products, backend systems, and
+                the infrastructure that keeps them running.
+              </p>
+              <p>
+                I’ve worked on equipment management and telemetry tools, built
+                platforms for university communities, and taught Go through a
+                GDG workshop. I enjoy turning a complicated problem into
+                something people can understand and use.
+              </p>
+              <a
+                className="text-link"
+                href="https://www.linkedin.com/in/omar-el-dardery-96924b2a2"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Connect on LinkedIn ↗
+              </a>
+            </div>
+          </div>
+          <div className="experience-content">
+            <ExperienceEducation
+              education={education}
+              experiences={experiences}
+            />
+          </div>
+          <details className="learning-details">
+            <summary>Courses & certificates</summary>
+            <CertificateGallery
+              certificates={courses}
+              title="Learning & certificates"
+            />
+          </details>
+        </section>
+        <section className="contact-section" id="contact">
+          <div className="shell contact-layout">
+            <div>
+              <p className="eyebrow">Let’s build something useful</p>
+              <h2>Have a problem worth solving?</h2>
+              <p>
+                Tell me who it’s for, what’s getting in the way, and what you’d
+                like to make possible.
+              </p>
+            </div>
+            <a
+              className="button button-primary"
+              href={`mailto:${personalInfo.email}`}
+            >
+              Start a conversation <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </section>
+      </main>
+      <footer className="shell site-footer">
+        <span>
+          © {new Date().getFullYear()} {personalInfo.name}
+        </span>
+        <div>
+          <a href={`mailto:${personalInfo.email}`}>Email</a>
+          <a
+            href="https://www.linkedin.com/in/omar-el-dardery-96924b2a2"
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkedIn ↗
+          </a>
+          <a
+            href="https://github.com/OmarDardery"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub ↗
+          </a>
         </div>
+        <a href={resumePdf} target="_blank" rel="noreferrer">
+          View résumé ↗
+        </a>
       </footer>
     </div>
   );
 }
-
 export default App;
