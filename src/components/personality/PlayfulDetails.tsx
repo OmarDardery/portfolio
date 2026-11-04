@@ -153,8 +153,7 @@ export function TinyTerminal() {
   return (
     <details className="tiny-terminal">
       <summary>
-        <span aria-hidden="true">&gt;_</span> A very small terminal, for very
-        serious business
+        <span aria-hidden="true">&gt;_</span> Try the terminal
       </summary>
       <div className="terminal-body">
         <div className="terminal-output" role="log" aria-live="polite">

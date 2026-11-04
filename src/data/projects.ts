@@ -59,7 +59,7 @@ export const projects: Project[] = [
     title: "Lukat",
     status: "In development · hardware + mobile",
     description:
-      "A little wireless display for your interests. Send art, GIFs, drawings, and what’s playing from a mobile app to a customizable, headphone-mountable display.",
+      "A wireless display controlled by a mobile app. Art, GIFs, and album covers.",
     usefulness:
       "A wearable canvas for a bit of personality—because headphones can have interests too. The mobile app and working display prototype are being developed together; a compact headphone mount is planned.",
     why: "I wanted to bring a small digital canvas into the physical world. Lukat connects the mobile experience, image preparation, wireless transfer, and embedded playback as one product.",
@@ -100,7 +100,7 @@ export const projects: Project[] = [
     title: "Nixlab",
     status: "Release candidate · infrastructure",
     description:
-      "A home server platform that brings installation, virtual machines, applications, and everyday administration into a more repeatable workflow.",
+      "Repeatable home-server setup and management. Release candidate.",
     why: "Running a home server involves more than getting an application online. I’m building Nixlab to make setup, configuration changes, and recovery easier to understand and repeat.",
     usefulness:
       "Designed to reduce manual setup and make the next change easier to manage. Currently a single-host release candidate; physical installation and recovery still require commissioning checks.",
@@ -130,8 +130,7 @@ export const projects: Project[] = [
   {
     title: "IEEE EUI Website",
     status: "Web product · community",
-    description:
-      "A public home for the IEEE student branch: bringing events, societies, and team information together for the university community.",
+    description: "Events, societies, and team pages for IEEE EUI.",
     why: "A student organization needs a website that remains manageable as its team and events change. The structure keeps event pages consistent and content updates straightforward.",
     usefulness:
       "Helps visitors discover the branch’s activities and gives maintainers a clear way to publish new events.",
@@ -162,7 +161,7 @@ export const projects: Project[] = [
   {
     title: "Solvex",
     description:
-      "A university club platform connecting professors with students for internships and research opportunities.",
+      "Connects students and professors through research and internship opportunities.",
     why: "I started with React plus Go, but maintaining Docker Compose and a VM setup became heavy. I moved to Next.js because Vercel hosting is simpler and the project is easier to maintain long-term after graduation. Cloudflare made domain and tunneling management faster, and Resend had the best free tier for custom-domain email delivery with better inbox placement.",
     usefulness:
       "Brings research and internship opportunities into one place so students and professors can connect more easily.",
@@ -229,8 +228,7 @@ export const projects: Project[] = [
   },
   {
     title: "TypologyDen",
-    description:
-      "An exploratory personality quiz that connects self-reflection with career ideas, using interactive questions and AI-assisted consistency checks.",
+    description: "An interactive personality quiz for exploring career ideas.",
     why: "I chose React with Supabase to move quickly while keeping the stack clean and maintainable. Gemini API added an AI verification layer to improve response consistency and reduce noisy personality outcomes.",
     usefulness:
       "Designed to make career exploration more approachable. Suggestions are prompts for reflection rather than validated career assessments.",
@@ -263,8 +261,7 @@ export const projects: Project[] = [
   },
   {
     title: "Homelab & Proxmox",
-    description:
-      "An earlier home server project that turned an old laptop into a place to run applications, experiment, and practice backups.",
+    description: "An old laptop turned into a self-hosted server.",
     why: "I used Proxmox because it is one of the best free open-source hypervisors for hands-on infrastructure learning. Pairing Docker and lightweight containerized services improved resource efficiency and made deployments simpler to manage.",
     usefulness:
       "Acts as a real-world playground for CI/CD, backup strategy, networking, and self-hosted AI services while keeping costs low.",
@@ -291,8 +288,7 @@ export const projects: Project[] = [
   },
   {
     title: "GDG Golang Workshop",
-    description:
-      "A hands-on Go workshop helping students build confidence with programming, collaboration, and backend development.",
+    description: "A hands-on introduction to Go and backend development.",
     why: "I focused on Go because it is practical for backend performance and modern infrastructure tooling. Starting with Git and Linux basics made the workshop accessible for students with mixed backgrounds.",
     usefulness:
       "The workshop gave students a practical path into backend and DevOps by combining fundamentals with production-oriented thinking.",
@@ -314,8 +310,7 @@ export const projects: Project[] = [
   },
   {
     title: "Object Detection App",
-    description:
-      "A web application that identifies objects in a live video stream, making computer vision easier to try through a browser.",
+    description: "Live object detection in a browser.",
     why: "FastAPI with WebSockets gave me a clean path for low-latency streaming, while YOLOv8 offered strong practical detection performance for real-time use cases.",
     usefulness:
       "Provides accessible real-time computer vision through a web interface, useful for experimentation and deployment-oriented AI workflows.",

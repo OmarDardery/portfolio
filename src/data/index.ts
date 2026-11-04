@@ -4,7 +4,7 @@ import { projects } from "./projects";
 export const portfolioData = {
   personalInfo: {
     name: "Omar El-Dardery",
-    role: "Software Developer",
+    role: "Full-Stack Developer",
     email: "oadardery@gmail.com",
     tagline: "Useful software, simpler systems, and thoughtfully directed AI.",
   },
