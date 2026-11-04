@@ -3,6 +3,13 @@ import { portfolioData, courses, education, experiences } from "./data";
 import { CertificateGallery } from "./components/ui/CertificateDisplay";
 import { ExperienceEducation } from "./components/ui/ExperienceEducation";
 import resumePdf from "./public/resume/Omar_Dardir_Resume.pdf";
+import portrait from "./public/profile/omar.webp";
+import {
+  ScrollGears,
+  MatrixRain,
+  TinyTerminal,
+} from "./components/personality/PlayfulDetails";
+import { PhotoGallery } from "./components/personality/PhotoGallery";
 import "./index.css";
 
 const services = [
@@ -48,6 +55,18 @@ const process = [
 ];
 
 export function App() {
+  const [playing, setPlaying] = useState(() => {
+    try {
+      const saved = localStorage.getItem("portfolio-playful");
+      if (saved) return saved === "on";
+    } catch {}
+    return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
+  useEffect(() => {
+    try {
+      localStorage.setItem("portfolio-playful", playing ? "on" : "off");
+    } catch {}
+  }, [playing]);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window === "undefined") return true;
     try {
@@ -66,7 +85,7 @@ export function App() {
   }, [isDarkMode]);
 
   const { personalInfo, projects } = portfolioData;
-  const featured = ["Solvex", "Nixlab", "IEEE EUI Website", "EngDen"];
+  const featured = ["Lukat", "Nixlab", "IEEE EUI Website", "Solvex", "EngDen"];
   const selected = featured
     .map((title) => projects.find((project) => project.title === title))
     .filter((project) => project !== undefined);
@@ -78,7 +97,7 @@ export function App() {
         <div className="work-image">
           <img
             src={project.imagePaths[0]}
-            alt={`${project.title} interface`}
+            alt={project.imageCaptions?.[0] ?? `${project.title} interface`}
             loading="lazy"
             width="1200"
             height="675"
@@ -97,6 +116,9 @@ export function App() {
         </div>
       )}
       <div className="work-body">
+        {project.status && (
+          <span className="project-status">{project.status}</span>
+        )}
         <div className="work-title">
           <span className="project-number">
             {String(index + 1).padStart(2, "0")}
@@ -132,32 +154,22 @@ export function App() {
               <span key={skill}>{skill}</span>
             ))}
           </div>
-          {project.imagePaths.length > 1 && (
-            <div className="project-gallery">
-              {project.imagePaths.slice(1).map((image, i) => (
-                <a
-                  href={image}
-                  key={image}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`Open ${project.title} screenshot ${i + 2}`}
-                >
-                  <img
-                    src={image}
-                    alt={`${project.title}, additional view ${i + 2}`}
-                    loading="lazy"
-                  />
-                </a>
-              ))}
-            </div>
-          )}
         </details>
+        {project.imagePaths.length > 0 && (
+          <details className="photos-details">
+            <summary>
+              Photos & screenshots <span>({project.imagePaths.length})</span>
+            </summary>
+            <PhotoGallery project={project} />
+          </details>
+        )}
       </div>
     </article>
   );
 
   return (
-    <div className="portfolio">
+    <div className={`portfolio ${playing ? "playful-on" : "playful-off"}`}>
+      <ScrollGears playing={playing} />
       <a className="skip-link" href="#main">
         Skip to content
       </a>
@@ -172,6 +184,22 @@ export function App() {
             <a href="#about">About</a>
           </div>
           <div className="nav-actions">
+            <button
+              className="play-toggle"
+              type="button"
+              onClick={() => setPlaying(!playing)}
+              aria-pressed={playing}
+              aria-label={
+                playing ? "Pause decorative motion" : "Enable decorative motion"
+              }
+              title={
+                playing
+                  ? "Pause the tiny machinery"
+                  : "Start the tiny machinery"
+              }
+            >
+              {playing ? "⚙ Motion on" : "⚙ Motion off"}
+            </button>
             <button
               className="theme-toggle"
               onClick={() => setIsDarkMode(!isDarkMode)}
@@ -210,30 +238,39 @@ export function App() {
               </a>
             </div>
             <p className="hero-note">
-              From the first brief to the details that make it usable.
+              From the first brief to the live link. Yes, deployment included.
             </p>
           </div>
-          <aside className="hero-aside" aria-label="What I bring">
-            <span className="aside-label">A practical builder’s mindset</span>
-            <p>
-              Understand the problem.
-              <br />
-              Build the useful version.
-              <br />
-              <span>Make it easier to use.</span>
-            </p>
-            <div className="aside-footer">
-              <span>
-                Web products
+          <aside className="portrait-block" aria-label="Meet Omar">
+            <div className="photo-note">
+              <span>Me 🙂</span>
+              <svg viewBox="0 0 160 100" fill="none" aria-hidden="true">
+                <path
+                  className="doodle-path"
+                  d="M10 18 C96 -2 152 20 105 45 C48 76 22 20 65 25 C99 30 88 73 126 85"
+                />
+                <path d="M113 84 L129 87 L124 71" />
+              </svg>
+            </div>
+            <div className="portrait-frame">
+              <img
+                src={portrait}
+                alt="Omar El-Dardery in a suit, giving two thumbs up"
+                width="720"
+                height="780"
+                fetchPriority="high"
+              />
+              <span className="photo-sticker">
+                build things.
                 <br />
-                Automation & infrastructure
-                <br />
-                AI-assisted delivery
-              </span>
-              <span className="aside-arrow" aria-hidden="true">
-                ↘
+                make them work.
               </span>
             </div>
+            <p className="portrait-caption">
+              The human behind the commits.
+              <br />
+              <span>Occasionally leaves the terminal.</span>
+            </p>
           </aside>
         </section>
         <section className="services-section">
@@ -276,6 +313,63 @@ export function App() {
             </summary>
             <div className="work-grid">{more.map(renderProject)}</div>
           </details>
+        </section>
+        <section className="delivery-section" id="delivery">
+          <MatrixRain playing={playing} />
+          <div className="shell delivery-content">
+            <div className="section-heading">
+              <p className="eyebrow">From development to deployment</p>
+              <h2>
+                “Works on my machine”
+                <br />
+                <em>is the starting line.</em>
+              </h2>
+              <p className="delivery-intro">
+                I can carry a project through the whole journey: understand the
+                brief, build the product, test it, deploy it, and make it easier
+                for the next person to run.
+              </p>
+            </div>
+            <ol className="delivery-steps">
+              {[
+                [
+                  "01",
+                  "Plan & build",
+                  "Clear requirements, sensible architecture, and small changes tracked in Git.",
+                ],
+                [
+                  "02",
+                  "Make it repeatable",
+                  "Standard tools such as Docker and Compose keep services and development environments consistent.",
+                ],
+                [
+                  "03",
+                  "Check the important parts",
+                  "Review code, test critical behavior, keep secrets out of source control, and check builds before release.",
+                ],
+                [
+                  "04",
+                  "Deploy & hand over",
+                  "Configure hosting and domains, check the live application, and document setup, updates, and recovery.",
+                ],
+              ].map(([n, title, body]) => (
+                <li key={n}>
+                  <span>{n}</span>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </li>
+              ))}
+            </ol>
+            <div className="standards-strip">
+              <span>Familiar tools. Fewer surprises.</span>
+              <div>Docker / Compose</div>
+              <div>Git / GitHub</div>
+              <div>Linux</div>
+              <div>CI checks</div>
+              <div>Documented handover</div>
+            </div>
+            <TinyTerminal />
+          </div>
         </section>
         <section className="approach-section" id="approach">
           <div className="shell approach-layout">

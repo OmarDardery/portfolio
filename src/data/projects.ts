@@ -1,3 +1,12 @@
+import nixlabOverview from "../public/projects/nixlab-overview.webp";
+import ieeeHome from "../public/projects/ieee-home.webp";
+import ieeeEvents from "../public/projects/ieee-events.webp";
+import lukatConcept from "../public/projects/lukat-concept.webp";
+import lukatPrototype from "../public/projects/lukat-prototype.webp";
+import lukatGif from "../public/projects/lukat-gif.webp";
+import lukatAlbum from "../public/projects/lukat-album.webp";
+import lukatLibrary from "../public/projects/lukat-library.webp";
+import lukatEditor from "../public/projects/lukat-editor.webp";
 import solvex0 from "../public/projects/solvex.png";
 import solvex1 from "../public/projects/solvex1.png";
 import solvex2 from "../public/projects/solvex2.png";
@@ -29,6 +38,8 @@ import objectDetection0 from "../public/projects/object_detection_application.pn
 
 export interface Project {
   title: string;
+  status?: string;
+  imageCaptions?: string[];
   description: string;
   why: string;
   usefulness: string;
@@ -44,7 +55,49 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    title: "Lukat",
+    status: "In development · hardware + mobile",
+    description:
+      "A little wireless display for your interests. Send art, GIFs, drawings, and what’s playing from a mobile app to a customizable, headphone-mountable display.",
+    usefulness:
+      "A wearable canvas for a bit of personality—because headphones can have interests too. The mobile app and working display prototype are being developed together; the headphone enclosure is still a concept.",
+    why: "I wanted to bring a small digital canvas into the physical world. Lukat connects the mobile experience, image preparation, wireless transfer, and embedded playback as one product.",
+    detailedAnalysis: [
+      "Built a companion Android app with content selection, a drawing editor, GIF controls, and a saved library.",
+      "Connected the app to an ESP32-powered round display over Bluetooth Low Energy.",
+      "Worked on image preparation, transfer integrity, storage, and playback under device constraints.",
+      "Designed around a future compact headphone mount; the product render illustrates that direction rather than a finished enclosure.",
+    ],
+    skills: [
+      "ESP32",
+      "Bluetooth LE",
+      "React",
+      "Rust",
+      "Tauri",
+      "PlatformIO",
+      "Embedded systems",
+    ],
+    imagePaths: [
+      lukatConcept,
+      lukatPrototype,
+      lukatGif,
+      lukatAlbum,
+      lukatEditor,
+      lukatLibrary,
+    ],
+    imageCaptions: [
+      "Concept render · proposed headphone mount and app presentation",
+      "Actual working round-display prototype",
+      "Actual app · GIF selection and compression controls",
+      "Actual app · album artwork controls",
+      "Actual app · custom drawing editor",
+      "Actual app · saved content library",
+    ],
+    links: [],
+  },
+  {
     title: "Nixlab",
+    status: "Release candidate · infrastructure",
     description:
       "A home server platform that brings installation, virtual machines, applications, and everyday administration into a more repeatable workflow.",
     why: "Running a home server involves more than getting an application online. I’m building Nixlab to make setup, configuration changes, and recovery easier to understand and repeat.",
@@ -56,7 +109,10 @@ export const projects: Project[] = [
       "Made backup, rollback boundaries, and recovery procedures explicit rather than treating a successful installation as the finish line.",
     ],
     skills: ["NixOS", "Incus", "KVM/QEMU", "Docker Compose", "Automation"],
-    imagePaths: [],
+    imagePaths: [nixlabOverview],
+    imageCaptions: [
+      "GitHub project overview · public website unavailable at capture time",
+    ],
     links: [
       {
         label: "Source code",
@@ -72,6 +128,7 @@ export const projects: Project[] = [
   },
   {
     title: "IEEE EUI Website",
+    status: "Web product · community",
     description:
       "A public home for the IEEE student branch: bringing events, societies, and team information together for the university community.",
     why: "A student organization needs a website that remains manageable as its team and events change. The structure keeps event pages consistent and content updates straightforward.",
@@ -83,8 +140,17 @@ export const projects: Project[] = [
       "Kept content in the repository, with documented update steps and image optimization for maintainers.",
     ],
     skills: ["Next.js", "TypeScript", "Tailwind CSS", "Content structure"],
-    imagePaths: [],
+    imagePaths: [ieeeHome, ieeeEvents],
+    imageCaptions: [
+      "Live IEEE EUI website · homepage",
+      "Live IEEE EUI website · searchable event directory",
+    ],
     links: [
+      {
+        label: "Live site",
+        url: "https://ieee-website-eta-nine.vercel.app/",
+        type: "website",
+      },
       {
         label: "Source code",
         url: "https://github.com/OmarDardery/ieee-website",
@@ -261,9 +327,9 @@ export const projects: Project[] = [
     imagePaths: [objectDetection0],
     links: [
       {
-        label: "GitHub Repo",
-        url: "https://github.com/OmarDardery/object-detection-backend",
-        type: "github",
+        label: "Ask me about this project",
+        url: "mailto:oadardery@gmail.com?subject=Object%20Detection%20project",
+        type: "other",
       },
     ],
   },
