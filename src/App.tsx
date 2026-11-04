@@ -15,59 +15,41 @@ import "./index.css";
 const services = [
   {
     number: "01",
-    title: "Websites that represent you properly",
+    title: "Websites",
     short: "Website development",
-    description:
-      "Business websites, portfolios, landing pages, and community sites that make it easy to understand what you do and take the next step.",
+    description: "Business sites, portfolios, and landing pages.",
     deliverables: [
-      "Responsive pages for desktop and mobile",
-      "Clear content, navigation, and contact forms",
-      "Search and sharing basics",
-      "A straightforward way to update content",
+      "Mobile-ready",
+      "Contact forms",
+      "SEO basics",
+      "Easy updates",
     ],
-    fit: "For a new presence, a launch, or a website that needs a refresh.",
   },
   {
     number: "02",
-    title: "Software built around how you work",
+    title: "Custom software",
     short: "Custom software",
-    description:
-      "Web apps, dashboards, booking systems, and internal tools that bring a specific workflow into one usable place.",
-    deliverables: [
-      "Interfaces people can actually use",
-      "Accounts, data, and application logic",
-      "APIs and connections between services",
-      "Testing, documentation, and handover",
-    ],
-    fit: "For a process that has outgrown spreadsheets, messages, or manual work.",
+    description: "Web apps, dashboards, and tools for your workflow.",
+    deliverables: ["Accounts", "Databases", "APIs", "Internal tools"],
   },
   {
     number: "03",
-    title: "Deployment, domains, and the last mile",
+    title: "Deployment & domains",
     short: "Deployment and domains",
-    description:
-      "Have the code but need it online? I can handle the setup between a working project and a website or application people can reach.",
-    deliverables: [
-      "Hosting and application deployment",
-      "Custom domains, subdomains, and DNS",
-      "HTTPS and environment configuration",
-      "Live checks and notes for future updates",
-    ],
-    fit: "For launching something new or sorting out an existing deployment.",
+    description: "Get your project online, on your own domain.",
+    deliverables: ["Hosting", "DNS & domains", "HTTPS", "Launch checks"],
   },
   {
     number: "04",
-    title: "Less repetitive work. Better connections.",
+    title: "Automation",
     short: "Automation and integrations",
-    description:
-      "Scripts, integrations, and repeatable setups that move information between tools and reduce the work you keep doing by hand.",
+    description: "Connect your tools. Cut repetitive work.",
     deliverables: [
-      "Connections between APIs and services",
-      "Small tools for recurring tasks",
-      "Repeatable development environments",
-      "AI-assisted prototyping and iteration",
+      "Scripts",
+      "Integrations",
+      "Repeatable setups",
+      "AI workflows",
     ],
-    fit: "For the task you keep thinking, ‘surely this could be automated.’",
   },
 ];
 const projectServices: Record<string, string> = {
@@ -128,7 +110,6 @@ export function App() {
               alt="Lukat round display, isolated from the original prototype photo"
               loading="lazy"
             />
-            <span>the display</span>
           </div>
           <div className="lukat-app">
             <img
@@ -174,7 +155,7 @@ export function App() {
           <h3>{project.title}</h3>
         </div>
         <p>{project.description}</p>
-        <p className="project-value">{project.usefulness}</p>
+
         <div className="project-links">
           {project.links
             .filter((link) => link.type !== "linkedin")
@@ -265,32 +246,31 @@ export function App() {
       <main id="main">
         <section className="shell hero" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <p className="eyebrow">Websites · Software · Deployment</p>
+            <p className="eyebrow">Omar El-Dardery · Cairo, Egypt</p>
             <h1 id="hero-title">
-              Websites & software.
+              Full-Stack
               <br />
-              <em>From idea to live.</em>
+              <em>Developer.</em>
             </h1>
             <p className="hero-description">
-              I help businesses, teams, and individuals build websites and
-              practical software—then get them online with hosting, a connected
-              domain, and a clear handover.
+              I build websites and software, then get them live on your domain.
             </p>
             <div className="hero-actions">
               <a className="button button-primary" href="#services">
-                Find what you need <span aria-hidden="true">↓</span>
+                View services <span aria-hidden="true">↓</span>
               </a>
               <a
                 className="button button-secondary"
                 href={`mailto:${personalInfo.email}`}
               >
-                Discuss your project <span aria-hidden="true">↗</span>
+                Start a project <span aria-hidden="true">↗</span>
               </a>
             </div>
-            <p className="hero-note">
-              A complete project, an existing tool improved, or just help
-              getting it live.
-            </p>
+            <div className="hero-tags">
+              <span>Websites</span>
+              <span>Software</span>
+              <span>Deployment</span>
+            </div>
           </div>
           <aside className="portrait-block" aria-label="Meet Omar">
             <div className="photo-note">
@@ -318,30 +298,20 @@ export function App() {
               </span>
             </div>
             <p className="portrait-caption">
-              The human behind the commits.
-              <br />
-              <span>Occasionally leaves the terminal.</span>
+              Occasionally leaves the terminal.
             </p>
           </aside>
         </section>
         <section className="services-section" id="services">
           <div className="shell services-layout">
             <div className="services-intro">
-              <p className="eyebrow">What I can help with</p>
-              <h2>
-                Pick the part
-                <br />
-                you need handled.
-              </h2>
-              <p>
-                A new website, a custom tool, or the setup that gets it online.
-                We can start with one clear need and define the scope together.
-              </p>
+              <h2>Services</h2>
+              <p>One task or the full project.</p>
               <a
                 className="text-link"
                 href={`mailto:${personalInfo.email}?subject=Let%E2%80%99s%20discuss%20a%20project`}
               >
-                Not sure where to start? Let’s talk ↗
+                Let’s talk ↗
               </a>
             </div>
             <div className="service-catalog">
@@ -351,17 +321,16 @@ export function App() {
                   <div className="service-main">
                     <h3>{service.title}</h3>
                     <p>{service.description}</p>
-                    <p className="service-fit">{service.fit}</p>
+
                     <a
                       className="service-cta"
+                      aria-label={`Enquire about ${service.short.toLowerCase()}`}
                       href={`mailto:${personalInfo.email}?subject=${encodeURIComponent(service.short + " enquiry")}`}
                     >
-                      Let’s discuss {service.short.toLowerCase()}{" "}
-                      <span aria-hidden="true">↗</span>
+                      Enquire <span aria-hidden="true">↗</span>
                     </a>
                   </div>
                   <div className="service-includes">
-                    <span>What that can include</span>
                     <ul>
                       {service.deliverables.map((item) => (
                         <li key={item}>{item}</li>
@@ -377,66 +346,36 @@ export function App() {
           <MatrixRain playing={playing} />
           <div className="shell delivery-content">
             <div className="section-heading">
-              <p className="eyebrow">How I work</p>
-              <h2>
-                A clear brief.
-                <br />
-                <em>A working handover.</em>
-              </h2>
-              <p className="delivery-intro">
-                You don’t need to coordinate every technical step yourself. I
-                can take care of the build, the launch, and the details in
-                between—or step in for the part you need.
-              </p>
+              <h2>From brief to launch</h2>
             </div>
             <ol className="delivery-steps">
               {[
-                [
-                  "01",
-                  "Plan & build",
-                  "Clear requirements, sensible architecture, and small changes tracked in Git.",
-                ],
-                [
-                  "02",
-                  "Make it repeatable",
-                  "Standard tools such as Docker and Compose keep services and development environments consistent.",
-                ],
-                [
-                  "03",
-                  "Check the important parts",
-                  "Review code, test critical behavior, keep secrets out of source control, and check builds before release.",
-                ],
-                [
-                  "04",
-                  "Deploy & hand over",
-                  "Configure hosting and domains, check the live application, and document setup, updates, and recovery.",
-                ],
+                ["01", "Scope", "Agree on features."],
+                ["02", "Build", "Develop the product."],
+                ["03", "Check", "Test key flows."],
+                ["04", "Launch", "Deploy. Connect the domain."],
               ].map(([n, title, body]) => (
                 <li key={n}>
-                  <span>{n}</span>
+                  <span className="flow-number">{n}</span>
+                  <span className="flow-arrow" aria-hidden="true">
+                    →
+                  </span>
                   <h3>{title}</h3>
                   <p>{body}</p>
                 </li>
               ))}
             </ol>
             <div className="standards-strip">
-              <span>Familiar tools. Fewer surprises.</span>
+              <span>Built with</span>
               <div>Docker / Compose</div>
               <div>Git / GitHub</div>
               <div>Linux</div>
               <div>CI checks</div>
-              <div>Documented handover</div>
+              <div>Setup notes</div>
             </div>
             <div className="ai-delivery-note" id="approach">
-              <span>
-                AI helps with the pace.
-                <br />I stay responsible for the result.
-              </span>
-              <p>
-                I use LLMs and coding agents to explore options and carry out
-                focused tasks. Clear instructions, small feedback loops, code
-                review, and testing keep the work tied to your brief.
-              </p>
+              <span>AI-assisted. Human-reviewed.</span>
+              <p>I direct coding agents, review changes, and test results.</p>
             </div>
             <TinyTerminal />
           </div>
@@ -444,8 +383,7 @@ export function App() {
         <section className="shell section" id="work">
           <div className="section-heading heading-row">
             <div>
-              <p className="eyebrow">A few examples</p>
-              <h2>Here’s what that looks like.</h2>
+              <h2>Selected work</h2>
             </div>
             <a
               className="text-link"
@@ -459,7 +397,7 @@ export function App() {
           <div className="work-grid">{selected.map(renderProject)}</div>
           <details className="more-work">
             <summary>
-              More experiments & teaching <span>({more.length})</span>
+              More work <span>({more.length})</span>
             </summary>
             <div className="work-grid">{more.map(renderProject)}</div>
           </details>
@@ -467,32 +405,19 @@ export function App() {
         <section className="shell section" id="about">
           <div className="about-intro">
             <div>
-              <p className="eyebrow">A little about me</p>
-              <h2>
-                Curious about how things work.
-                <br />
-                Focused on making them useful.
-              </h2>
+              <p className="eyebrow">About</p>
+              <h2>Omar El-Dardery</h2>
             </div>
             <div>
-              <p>
-                I’m Omar, a computer engineering student at Egypt University of
-                Informatics. My work spans web products, backend systems, and
-                the infrastructure that keeps them running.
-              </p>
-              <p>
-                I’ve worked on equipment management and telemetry tools, built
-                platforms for university communities, and taught Go through a
-                GDG workshop. I enjoy turning a complicated problem into
-                something people can understand and use.
-              </p>
+              <p>Computer engineering student at EUI, Cairo.</p>
+              <p>Web platforms. Infrastructure. A Go workshop with GDG.</p>{" "}
               <a
                 className="text-link"
                 href="https://www.linkedin.com/in/omar-el-dardery-96924b2a2"
                 target="_blank"
                 rel="noreferrer"
               >
-                Connect on LinkedIn ↗
+                LinkedIn ↗
               </a>
             </div>
           </div>
@@ -516,19 +441,14 @@ export function App() {
         <section className="contact-section" id="contact">
           <div className="shell contact-layout">
             <div>
-              <p className="eyebrow">Start with what you need</p>
-              <h2>What can I take off your plate?</h2>
-              <p>
-                Tell me what you need built, who will use it, and whether you
-                already have a website, code, or domain. I’ll help turn that
-                into a clear next step.
-              </p>
+              <h2>Have a project?</h2>
+              <p>Send the idea, timeline, and what you already have.</p>
             </div>
             <a
               className="button button-primary"
               href={`mailto:${personalInfo.email}`}
             >
-              Start a conversation <span aria-hidden="true">↗</span>
+              Email me <span aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
